@@ -10,7 +10,7 @@ object Sorting {
   def mergeSort(arr: Array[Int]): Array[Int] = {
     def merge(a: Array[Int], b: Array[Int]): Array[Int] = {
       val n = a.length + b.length
-      var c = Array.fill[Int](n)(0)
+      val c = Array.fill[Int](n)(0)
       var i, j = 0
       for (k <- 0 to n-1) {
         if (i > a.length-1) {
