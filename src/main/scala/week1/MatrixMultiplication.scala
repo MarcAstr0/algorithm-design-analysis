@@ -20,15 +20,9 @@ object MatrixMultiplication {
   }
 
   def strassen(x: Array[Array[Int]], y: Array[Array[Int]]): Array[Array[Int]] = {
-    if (x.length == 2 && y.length == 2) {
-      val p1 = x(0)(0) * (y(0)(1) - y(1)(1))
-      val p2 = (x(0)(0) + x(0)(1)) * y(1)(1)
-      val p3 = (x(1)(0) + x(1)(1)) * y(0)(0)
-      val p4 = x(1)(1) * (y(1)(0) - y(0)(0))
-      val p5 = (x(0)(0) + x(1)(1)) * (y(0)(0) + y(1)(1))
-      val p6 = (x(0)(1) - x(1)(1)) * (y(1)(0) + y(1)(1))
-      val p7 = (x(0)(0) - x(1)(0)) * (y(0)(0) + y(0)(1))
-      Array(Array(p5 + p4 - p2 + p6, p1 + p2), Array(p3 + p4, p1 + p5 - p3 - p7))
+    // base case: two matrices of size 1
+    if (x.length == 1 && y.length == 1) {
+      Array(Array(x(0)(0) * y(0)(0)))
     } else {
       val topX = x.slice(0, x.length/2)
       val bottomX = x.slice(x.length/2, x.length)
