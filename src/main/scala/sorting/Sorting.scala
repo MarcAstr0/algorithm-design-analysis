@@ -1,6 +1,4 @@
-package week1
-
-import scala.annotation.tailrec
+package sorting
 
 /**
  * Created by mario on 03-10-16.

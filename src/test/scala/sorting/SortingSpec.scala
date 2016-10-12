@@ -1,5 +1,6 @@
-package week1
-import org.scalatest.{Matchers, FlatSpec}
+package sorting
+
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
  * Created by mario on 03-10-16.

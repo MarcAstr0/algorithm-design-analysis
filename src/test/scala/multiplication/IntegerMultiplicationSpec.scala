@@ -1,6 +1,6 @@
-package week1
+package multiplication
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
  * Created by mario on 10-10-16.

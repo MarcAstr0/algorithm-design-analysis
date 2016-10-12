@@ -1,4 +1,4 @@
-package week1
+package assignments
 
 /**
  * Created by mcastro on 10/6/2016.
@@ -41,7 +41,7 @@ object AssignmentOne {
   }
 
   def main(args: Array[String]): Unit = {
-    val stream = getClass.getResourceAsStream("/week1/IntegerArray.txt")
+    val stream = getClass.getResourceAsStream("/assignments/IntegerArray.txt")
     val lines = scala.io.Source.fromInputStream(stream).getLines
     val inputArray = (for { line <- lines } yield line.toInt).toArray
 

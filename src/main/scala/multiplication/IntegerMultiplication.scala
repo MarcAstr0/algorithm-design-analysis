@@ -1,4 +1,4 @@
-package week1
+package multiplication
 
 /**
  * Created by mario on 10-10-16.

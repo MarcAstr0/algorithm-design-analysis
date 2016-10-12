@@ -1,4 +1,4 @@
-package week1
+package multiplication
 
 import scala.collection.mutable.ArrayBuffer
 

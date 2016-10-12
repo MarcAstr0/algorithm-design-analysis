@@ -1,4 +1,4 @@
-package week1
+package assignments
 
 import org.scalatest.{Matchers, FlatSpec}
 
