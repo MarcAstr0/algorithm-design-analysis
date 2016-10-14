@@ -46,8 +46,10 @@ object Sorting {
       val t = arr(i); arr(i) = arr(j); arr(j) = t
     }
     def partition(l: Int, r: Int): Unit = {
-      if (r-l > 1) {
-        val p = l
+      if (r == l || r < l) {
+        // do nothing
+      } else {
+        val p = r
         swap(l, p)
         val pivot = arr(l)
         var i = l + 1
@@ -58,7 +60,7 @@ object Sorting {
           }
         }
         swap(l, i-1)
-        if (l < i) partition(l, i-1)
+        if (l < i) partition(l, i-2)
         if (i < r) partition(i, r)
       }
     }
