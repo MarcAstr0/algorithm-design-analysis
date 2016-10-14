@@ -8,6 +8,11 @@ import scala.collection.mutable.ArrayBuffer
  */
 object Sorting {
 
+  /** Function that sorts an array using the MergeSort algorithm
+   *
+   * @param arr the array we want to sort
+   * @return the sorted array
+   */
   def mergeSort(arr: Array[Int]): Array[Int] = {
     def merge(a: Array[Int], b: Array[Int]): Array[Int] = {
       val n = a.length + b.length
@@ -41,6 +46,13 @@ object Sorting {
     }
   }
 
+  /** Function that sorts an array using the QuickSort algorithm
+   *
+   * This implementation uses the median-of-three method to select the pivot
+   *
+   * @param arr the array we want to sort
+   * @return the sorted array
+   */
   def quickSort(arr: Array[Int]): Array[Int] = {
     def swap(i: Int, j: Int) = {
       val t = arr(i); arr(i) = arr(j); arr(j) = t
@@ -49,8 +61,13 @@ object Sorting {
       if (r == l || r < l) {
         // do nothing
       } else {
-        val p = r
-        swap(l, p)
+        val first = arr(l)
+        val last = arr(r)
+        val middle = arr((r+l)/2)
+        val median = Array(first, middle, last).sortWith(_ < _).drop(1).head
+        if (median == middle) { val p = (r+l)/2; swap(l, p) }
+        else if (median == first) { val p = l; swap(l, p) }
+        else { val p = r; swap(l, p) }
         val pivot = arr(l)
         var i = l + 1
         for {j <- l + 1 to r} {
