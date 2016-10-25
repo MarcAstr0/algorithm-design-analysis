@@ -47,4 +47,15 @@ class GraphsSpec extends FlatSpec with Matchers {
     Graph.minCut(Graph.createAdjacencyList(al5, " ")) shouldEqual 3
     Graph.minCut(Graph.createAdjacencyList(al6, " ")) shouldEqual 2
   }
+
+  "bfs" should "return the vertices reachable by starting vertex s using breadth-first search" in {
+    val bfs1 = getClass.getResourceAsStream("/graphs/bfs1.txt")
+    Graph.bfs(Graph.createAdjacencyList(bfs1, " "), 1).sorted shouldEqual List(1, 2, 3, 4, 5, 6).sorted
+//    Graph.bfs(Graph.createAdjacencyList(bfs1, " "), 6).sorted shouldEqual List(1, 2, 3, 4, 5, 6).sorted
+  }
+
+  "connectedComponents" should "return the connected components of a graph using breadth-frist search" in {
+    val bfs2 = getClass.getResourceAsStream("/graphs/bfs2.txt")
+    Graph.connectedComponents(Graph.createAdjacencyList(bfs2, " ")) should contain theSameElementsAs List(List(1, 3, 5, 7, 9), List(2, 4), List(6, 8, 10))
+  }
 }

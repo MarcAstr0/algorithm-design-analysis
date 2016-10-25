@@ -2,6 +2,8 @@ package graphs
 
 import java.io.InputStream
 
+import scala.collection.immutable.Queue
+
 /**
  * Created by mcastro on 10/19/2016.
  */
@@ -49,6 +51,43 @@ object Graph {
       if (minCutOnce(adjList) < minCut) minCut = m
     }
     minCut
+  }
+
+  def bfs(adjList: Map[Int, List[Int]], s: Int): List[Int] = {
+    val explored = collection.mutable.Map(adjList.map{case (k, v) => k -> false}.toSeq: _*)
+    explored(s) = true
+    val q = new scala.collection.mutable.Queue[Int]()
+    q.enqueue(s)
+    while (!q.isEmpty) {
+      val v = q.dequeue
+      for {w <- adjList(v)} {
+        if (!explored(w)) {explored(w) = true; q.enqueue(w)}
+      }
+    }
+    explored.map{case (x, y) => x}.toList
+  }
+
+  def connectedComponents(adjList: Map[Int, List[Int]]): List[List[Int]] = {
+    val explored = collection.mutable.Map(adjList.map{case (k, v) => k -> false}.toSeq: _*)
+    def bfs(adjList: Map[Int, List[Int]], s: Int): List[Int] = {
+      explored(s) = true
+      val result = scala.collection.mutable.ArrayBuffer[Int]()
+      result += s
+      val q = new scala.collection.mutable.Queue[Int]()
+      q.enqueue(s)
+      while (!q.isEmpty) {
+        val v = q.dequeue
+        for {w <- adjList(v)} {
+          if (!explored(w)) {explored(w) = true; result += w; q.enqueue(w)}
+        }
+      }
+      result.toList
+    }
+
+    for {
+      i <- adjList.map{case (k, v) => k}.toList
+      if (!explored(i))
+    } yield bfs(adjList, i).sorted
   }
 
 }
