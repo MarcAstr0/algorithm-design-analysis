@@ -26,6 +26,15 @@ object Graph {
     al.toMap
   }
 
+  def createAdjacencyListWithWeights(input: InputStream, separator: String): Map[Int, List[(Int, Int)]] = {
+    val al = for {
+      line <- scala.io.Source.fromInputStream(input).getLines
+    } yield line.split(separator).head.toInt -> line.split(separator).tail
+        .map(x => (x.split(",").head.toInt, x.split(",").tail.head.toInt))
+        .toList
+    al.toMap
+  }
+
   def minCutOnce(adjList: Map[Int, List[Int]]): Int = {
     var el = createEdgeList(adjList)
     var minCut = el.length
@@ -88,6 +97,29 @@ object Graph {
       i <- adjList.map{case (k, v) => k}.toList
       if (!explored(i))
     } yield bfs(adjList, i).sorted
+  }
+
+  def getWeightOfEdge(adjList: Map[Int, List[(Int, Int)]], u: Int, v: Int): Int = adjList(u).filter(x => x._1 == v).head._2
+
+  def getNeighbors(adjList: Map[Int, List[(Int, Int)]], u: Int): List[Int] = adjList(u).map(x => x._1)
+
+  def dijkstra(adjList: Map[Int, List[(Int, Int)]]): Map[Int, Int] = {
+    val infinity = 1000000
+    val source = 1
+    val v = scala.collection.mutable.ListBuffer[Int]() // visited vertices
+    val vertices = for {(vertex, edges)  <- adjList} yield if (vertex == source) (vertex -> 0) else (vertex -> infinity)
+    val q = collection.mutable.Map() ++ vertices // our vertex set
+    v += source
+    var current = source
+    while (q.size != v.length) {
+      val unvisitedNeighbors = getNeighbors(adjList, current).filter(!v.contains(_))
+      for {uv <- unvisitedNeighbors} {
+        q(uv) = Math.min(q(uv), q(current) + getWeightOfEdge(adjList, current, uv))
+      }
+      current = q.filterKeys(!v.contains(_)).toSeq.sortBy(_._2).toList.head._1
+      v += current
+    }
+    collection.immutable.Map() ++ q
   }
 
 }

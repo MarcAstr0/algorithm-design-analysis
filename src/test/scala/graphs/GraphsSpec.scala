@@ -58,4 +58,52 @@ class GraphsSpec extends FlatSpec with Matchers {
     val bfs2 = getClass.getResourceAsStream("/graphs/bfs2.txt")
     Graph.connectedComponents(Graph.createAdjacencyList(bfs2, " ")) should contain theSameElementsAs List(List(1, 3, 5, 7, 9), List(2, 4), List(6, 8, 10))
   }
+
+  "getWeightOfEdge" should "return the weight of the edge in a weighted graph" in {
+    val dijkstra = getClass.getResourceAsStream("/graphs/dijkstra1.txt")
+    val g = Graph.createAdjacencyListWithWeights(dijkstra, " ")
+    Graph.getWeightOfEdge(g, 1, 2) shouldEqual 1
+    Graph.getWeightOfEdge(g, 1, 8) shouldEqual 2
+    Graph.getWeightOfEdge(g, 2, 1) shouldEqual 1
+    Graph.getWeightOfEdge(g, 2, 3) shouldEqual 1
+    Graph.getWeightOfEdge(g, 3, 2) shouldEqual 1
+    Graph.getWeightOfEdge(g, 3, 4) shouldEqual 1
+    Graph.getWeightOfEdge(g, 4, 3) shouldEqual 1
+    Graph.getWeightOfEdge(g, 4, 5) shouldEqual 1
+    Graph.getWeightOfEdge(g, 5, 4) shouldEqual 1
+    Graph.getWeightOfEdge(g, 5, 6) shouldEqual 1
+    Graph.getWeightOfEdge(g, 6, 5) shouldEqual 1
+    Graph.getWeightOfEdge(g, 6, 7) shouldEqual 1
+    Graph.getWeightOfEdge(g, 7, 6) shouldEqual 1
+    Graph.getWeightOfEdge(g, 7, 8) shouldEqual 1
+    Graph.getWeightOfEdge(g, 8, 7) shouldEqual 1
+    Graph.getWeightOfEdge(g, 8, 1) shouldEqual 2
+  }
+
+  "getNeighbors" should "return the neighboring vertices for a given vertex" in {
+    val dijkstra = getClass.getResourceAsStream("/graphs/dijkstra1.txt")
+    val g = Graph.createAdjacencyListWithWeights(dijkstra, " ")
+    Graph.getNeighbors(g, 1) shouldEqual List(2, 8)
+    Graph.getNeighbors(g, 2) shouldEqual List(1, 3)
+    Graph.getNeighbors(g, 3) shouldEqual List(2, 4)
+    Graph.getNeighbors(g, 4) shouldEqual List(3, 5)
+    Graph.getNeighbors(g, 5) shouldEqual List(4, 6)
+    Graph.getNeighbors(g, 6) shouldEqual List(5, 7)
+    Graph.getNeighbors(g, 7) shouldEqual List(6, 8)
+    Graph.getNeighbors(g, 8) shouldEqual List(7, 1)
+  }
+
+  "dijkstra" should "return the shortest path for a given graph and destination" in {
+    val dijkstra = getClass.getResourceAsStream("/graphs/dijkstra1.txt")
+    val g = Graph.createAdjacencyListWithWeights(dijkstra, " ")
+    val paths = Graph.dijkstra(g)
+    paths(1) shouldEqual 0
+    paths(2) shouldEqual 1
+    paths(3) shouldEqual 2
+    paths(4) shouldEqual 3
+    paths(5) shouldEqual 4
+    paths(6) shouldEqual 4
+    paths(7) shouldEqual 3
+    paths(8) shouldEqual 2
+  }
 }
